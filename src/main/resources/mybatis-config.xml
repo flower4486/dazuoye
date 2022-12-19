@@ -13,7 +13,7 @@
             <dataSource type="POOLED">
 <!--                连接信息-->
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql:///game?useSSL=false"/>
+                <property name="url" value="jdbc:mysql:///game?useSSL=false&amp;useServerPrepStmts=true"/>
                 <property name="username" value="root"/>
                 <property name="password" value="root"/>
             </dataSource>

@@ -1,16 +1,16 @@
 package com.itheima.pojo;
 
 public class Accessories {
-   private String aId;
-   private String aname ;
-   private int hp  ;
-   private int defense ;
-   private String aimg  ;
 
+   private Integer aId;
+   private String aname ;
+   private Integer hp  ;
+    private Integer defense ;
+    private String aimg  ;
     @Override
     public String toString() {
         return "Accessories{" +
-                "aId='" + aId + '\'' +
+                "aId=" + aId +
                 ", aname='" + aname + '\'' +
                 ", hp=" + hp +
                 ", defense=" + defense +
@@ -18,11 +18,11 @@ public class Accessories {
                 '}';
     }
 
-    public String getaId() {
+    public Integer getaId() {
         return aId;
     }
 
-    public void setaId(String aId) {
+    public void setaId(Integer aId) {
         this.aId = aId;
     }
 
@@ -34,19 +34,19 @@ public class Accessories {
         this.aname = aname;
     }
 
-    public int getHp() {
+    public Integer getHp() {
         return hp;
     }
 
-    public void setHp(int hp) {
+    public void setHp(Integer hp) {
         this.hp = hp;
     }
 
-    public int getDefense() {
+    public Integer getDefense() {
         return defense;
     }
 
-    public void setDefense(int defense) {
+    public void setDefense(Integer defense) {
         this.defense = defense;
     }
 
@@ -57,4 +57,8 @@ public class Accessories {
     public void setAimg(String aimg) {
         this.aimg = aimg;
     }
+
+
+
+
 }

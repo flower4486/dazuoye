@@ -6,10 +6,49 @@
 <!--
 名称空间-->
 <mapper namespace="com.itheima.mapper.WeaponMapper">
+
+<!--    添加一个武器-->
+    <insert id="addWeapon">
+        insert into weapon (wId, wname, attack, wimg) VALUES
+        (NULL,#{wname},#{attack},#{wimg});
+    </insert>
+    <insert id="userGetweapon" statementType="CALLABLE">
+        call Get_New(
+        #{uId,mode=IN,jdbcType=INTEGER},
+        #{wId,mode=IN,jdbcType=INTEGER},
+        NULL,
+        NULL,
+        2
+        );
+    </insert>
+    <update id="updateWeapon">
+        update weapon
+        <set>
+            <if test="wname != null and wname != ''">
+                wname = #{ wname },
+            </if>
+            <if test="attack != null">
+                attack= #{ attack},
+            </if>
+            <if test="wimg != null and wimg != ''">
+                wimg  = #{ wimg  },
+            </if>
+        </set>
+        where wId = #{wId};
+    </update>
+    <delete id="deleteWeaponById">
+        DELETE FROM weapon WHERE wId=#{wId};
+    </delete>
+
+
     <select id="selectAllweapon" resultType="weapon">
         select * from weapon;
     </select>
     <select id="selectById" resultType="weapon">
 
+    </select>
+    <select id="selectUersweapon" resultType="weapon">
+        SELECT * FROM weapon WHERE weapon.wId in
+        (SELECT user_own_weapon.wId FROM user_own_weapon WHERE user_own_weapon.uId = #{uId});
     </select>
 </mapper>

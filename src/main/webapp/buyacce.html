@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- <link rel="stylesheet" href=""/> -->
+</head>
+
+<body>
+    <script src="js/vue.js"></script>
+    <script src="element-ui/lib/index.js"></script>
+    <script src="js/axios.js"></script>
+    
+    <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css" />
+    <div id="app">
+        <!-- 当el-table元素中注入data对象数组后，在el-table-column中用prop属性来对
+            应对象中的键名即可填入数据，用label属性来定义表格的列名。可以使用width属性来定义列宽。 -->
+
+            <template>
+            <el-table :data="tableData" style="width: 100%"
+                :row-class-name="tableRowClassName"
+                @selection-change="handleSelectionChange">
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    type="index"
+                    width="50">
+                <el-table-column prop="aname" label="饰品名称" width="180">
+                </el-table-column>
+                <el-table-column prop="hp" label="饰品血量" width="180">
+                </el-table-column>
+                <el-table-column prop="defense" label="饰品防御力" width="180">
+                </el-table-column>
+                <el-table-column prop="aimg" label="饰品图片">
+                    <template slot-scope="scope">
+                        <img :src="scope.row.aimg" @click="previewPic(scope.row.aimg)" />
+                    </template>
+                </el-table-column>
+                <el-table-column prop="aId" label="操作">
+                    <template slot-scope="scope">
+                        <el-button type="danger" plain @click="buyByIds(scope.row.aId)">购买饰品</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-dialog :visible.sync="dialogVisible" :modal="false" title="图片预览" width="50%">
+
+                <img :src="previewpic" alt="" width="100%" />
+
+                <span slot="footer" class="dialog-footer">
+
+                    <el-button type="primary" @click="dialogVisible= false">确
+                        定</el-button>
+                </span>
+
+            </el-dialog>
+        </template>
+
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    tableData: [],
+                    imgVisible:false,
+                    previewpic: "",
+                    // 被选中的id数组
+                    selectedIds:[],
+                   
+                // 复选框选中数据集合
+                multipleSelection: [],
+                }
+            },
+            mounted() {
+
+                axios({
+                    url: "http://localhost:8080/dazuoye/GetListServlet",
+                    method: 'get',  // method:'post'
+                    params: {
+                        type: 'accessories'  // url上拼接 ?type_one=饮食
+                    }
+                }).then(res => {
+                    this.tableData = res.data
+                    console.log(res);
+                })
+            },
+            methods: {
+                //预览大图
+                previewPic(url) {
+                    this.previewpic = url;
+                    this.dialogVisible = true;
+                },
+                // 复选框选中后执行的方法
+                handleSelectionChange(val) {
+                    this.multipleSelection = val;
+    
+                   // console.log(this.multipleSelection[0].aId)
+                    //console.log(this.multipleSelection)
+                },
+               //购买一个
+               buyByIds(aId){
+                let url = decodeURI(window.location.href); 
+                let urlParsm = url.split("?uId=");  
+                let userInfo = urlParsm ? JSON.parse(urlParsm[1]) : '' 
+                axios({
+                    url: "http://localhost:8080/dazuoye/BuyAccessories",
+                    method: 'get',  // method:'post'
+                    params: {
+                        uId:userInfo,
+                        aId:aId
+                    }
+                }).then(res => {
+                    if(res.data == "success"){
+                        this.$message({
+                            message: '恭喜你，购买成功',
+                            type: 'success'
+                        });
+
+                    }
+               })
+            }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

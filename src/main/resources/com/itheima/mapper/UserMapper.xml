@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+名称空间-->
+<mapper namespace="com.itheima.mapper.UserMapper">
+    <insert id="addUser">
+        insert into user (uID, username, password, gender) VALUES
+        (NULL,#{username},#{password},#{gender});
+
+    </insert>
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender   = #{gender  }
+            </if>
+        </set>
+        where uID = #{uID};
+    </update>
+    <delete id="deleteUserById">
+        DELETE FROM `user` WHERE uId=#{uId};
+    </delete>
+    <select id="selectAlluser" resultType="user">
+        select * from user;
+    </select>
+    <select id="selectById" resultType="user">
+
+    </select>
+    <select id="IfLogin" resultType="java.lang.Integer">
+        SELECT uId FROM `user` WHERE username= #{username} AND `password`=#{password};
+    </select>
+</mapper>

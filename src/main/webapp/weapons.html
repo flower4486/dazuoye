@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- <link rel="stylesheet" href=""/> -->
+</head>
+
+<body>
+    <script src="js/vue.js"></script>
+    <script src="element-ui/lib/index.js"></script>
+    <script src="js/axios.js"></script>
+    <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css" />
+    <div id="app">
+        <!-- 当el-table元素中注入data对象数组后，在el-table-column中用prop属性来对
+            应对象中的键名即可填入数据，用label属性来定义表格的列名。可以使用width属性来定义列宽。 -->
+            <el-row>
+                <el-button type="danger" plain @click="deleteByIds">删除武器</el-button>
+                <el-button type="primary" plain @click="addVisible = true">新增武器</el-button>
+            </el-row>
+            <template>
+            <el-table :data="tableData" style="width: 100%">
+                <el-table-column prop="wname" label="武器名称" width="180">
+                </el-table-column>
+                <el-table-column prop="attack" label="武器攻击力" width="180">
+                </el-table-column>
+                <el-table-column prop="wimg" label="武器图片">
+                    <template slot-scope="scope">
+
+                        <img :src="scope.row.wimg" @click="previewPic(scope.row.wimg)" />
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-dialog :visible.sync="imgVisible" :modal="false" title="图片预览" width="50%">
+
+                <img :src="previewpic" alt="" width="100%" />
+
+                <span slot="footer" class="dialog-footer">
+
+                    <el-button type="primary" @click="dialogVisible= false">确
+                        定</el-button>
+                </span>
+
+            </el-dialog>
+        </template>
+       
+        <el-dialog
+        title="增加武器"
+        :visible.sync="addVisible"
+        width="30%"
+>
+
+    <el-form ref="form" :model="weapon" label-width="80px">
+        <el-form-item label="武器名称">
+            <el-input v-model="weapon.wname"></el-input>
+        </el-form-item>
+
+        <el-form-item label="攻击力">
+            <el-input v-model="weapon.attack"></el-input>
+        </el-form-item>
+
+        <el-form-item label="图片链接">
+            <el-input v-model="weapon.wimg"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button type="primary" @click="addweapon">提交</el-button>
+            <el-button @click="addVisible = false">取消</el-button>
+        </el-form-item>
+    </el-form>
+
+</el-dialog>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    tableData: [],
+                    addVisible: false,
+                    imgVisible:false,
+                    previewpic: "",
+                    //weapon数据模型
+                    weapon:{
+                        wId:'',
+                        wname:'',
+                        attack:'',
+                        wimg:""
+                    },
+                }
+            },
+            mounted() {
+                axios({
+                    url: "http://localhost:8080/dazuoye/GetListServlet",
+                    method: 'get',  // method:'post'
+                    params: {
+                        type:'weapons'  
+                    }
+                }).then(res => {
+                    this.tableData = res.data
+                    console.log(res);
+                })
+            },
+            methods: {
+                //预览大图
+                previewPic(url) {
+                    this.previewpic = url;
+                    this.imgVisible = true;
+                },
+                addweapon(){
+                    var _this=this
+                    //增加新武器的函数
+                    axios({
+                        method:"post",
+                        url:"http://localhost:8080/dazuoye/addWeapon",
+                        data:_this.weapon
+                    }).then(res=>{
+                        if(res.data == "success"){
+                            this.addVisible = false;
+                        }
+                    })
+                }
+
+            }
+
+
+        });
+
+    </script>
+</body>
+
+</html>

@@ -6,10 +6,62 @@
 <!--
 名称空间-->
 <mapper namespace="com.itheima.mapper.CharactorMapper">
+
+    <resultMap id="charactorResultMap" type="charactor">
+<!--        主键映射用id
+ 普通用result
+-->
+    </resultMap>
+    <update id="updateCharactor">
+    update charactor
+        <set>
+            <if test="cname != null and cname != ''">
+                cname = #{cname},
+            </if>
+            <if test="hp != null">
+                hp = #{hp},
+            </if>
+            <if test="attack != null">
+                attack = #{attack},
+            </if>
+            <if test="defense != null ">
+                defense = #{defense},
+            </if>
+            <if test="cimg != null and cimg != ''">
+                cimg = #{cimg}
+            </if>
+        where cid = #{cid};
+        </set>
+    </update>
+    <delete id="deleteCharactorById">
+        DELETE FROM charactor WHERE cId=#{cId};
+    </delete>
+
     <select id="selectAllcharactor" resultType="charactor">
         select * from charactor;
     </select>
-    <select id="selectById" resultType="Charactor">
-
+    <select id="selectBycid" parameterType="string" resultType="charactor">
+        select * from charactor where cid=#{cid};
     </select>
+    <select id="selectUerscharactor" resultType="charactor">
+        SELECT * FROM charactor WHERE charactor.cid in
+        (SELECT user_own_charactor.cId FROM user_own_charactor WHERE user_own_charactor.uId = #{uId});
+    </select>
+
+
+    <insert id="addCharactor" useGeneratedKeys="true" keyProperty="cid">
+        insert into charactor (cname, hp, attack, defense,cimg)
+        values (#{cname},#{hp},#{attack},#{defense},#{cimg});
+    </insert>
+    <insert id="userGetcharactor" statementType="CALLABLE">
+        call Get_New(
+        #{uId,mode=IN,jdbcType=INTEGER},
+        NULL,
+        #{cId,mode=IN,jdbcType=INTEGER},
+        NULL,
+        0
+        );
+    </insert>
 </mapper>
+<!--           #{cId,mode=IN,jdbcType=INTEGER},
+        #{aId,mode=IN,jdbcType=INTEGER},        -->

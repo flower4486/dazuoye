@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/manager.css"/>
+</head>
+<body>
+    <script src="js/vue.js"></script>
+    <script src="element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css" />
+    <div id="app">
+        <div class="box">
+            <el-row>
+                <a href="./users.html" >
+                  <el-button type="primary">所有用户</el-button>
+                </a>
+            </el-row>
+            <el-row>
+                <a href="./charactors.html" >
+                    <el-button type="primary">所有角色</el-button>
+                </a>
+            </el-row>
+            <el-row>
+                <a href="./weapons.html" >
+                    <el-button type="primary">所有武器</el-button>
+                </a>
+            </el-row>
+            <el-row>
+                <a href="./accessories.html" >
+                    <el-button type="primary">所有饰品</el-button>
+                </a>
+            </el-row>
+        </div>
+    
+    </div>
+    <script>
+        new Vue().$mount('#app')
+        
+    </script>
+</body>
+</html>

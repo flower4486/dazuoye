@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>注册</title>
+	<script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+	<link rel="stylesheet" href="css/base.css" />
+	<link rel="stylesheet" href="css/login.css" />
+	<link rel="stylesheet" href="css/register.css" />
+	<script type="text/javascript" src="js/register.js"></script>
+	<script type="text/javascript" src="js/axios.js"></script>
+</head>
+
+<body>
+	<div class="BodyBg t l">
+		<div class="reBodyMiddle c">
+			<div class="reBodyMiddleForm l">
+				<div class="reBodyMiddleFormMain">
+					<p>用户名</p>
+					<div class="registerText l">
+						<div class="clear cl2"></div>
+						<input class="in2" type="text" placeholder="请输入你的用户名" />
+					</div>
+					<div class="huanhang l">
+					</div>
+					<p>性别</p>
+					<div class="registerText l">
+						<div class="clear cl3"></div>
+						<!-- <input class="in3" type="text" placeholder=""/> -->
+						<select class="in3">
+							<option value="女">女</option>
+							<option value="男">男</option>
+						</select>
+					</div>
+					<div class="huanhang l">
+					</div>
+					<p>输入密码</p>
+					<div class="registerText l">
+						<div class="clear cl4"></div>
+						<input class="in4" type="text" placeholder="6-16位大小写英文字母、数字或符号的组合" />
+					</div>
+					<div class="huanhang l">
+					</div>
+					<p>确认密码</p>
+					<div class="registerText l">
+						<div class="clear cl5"></div>
+						<input class="in5" type="text" placeholder="请再次输入密码" />
+					</div>
+					<div class="huanhang l">
+					</div>
+					<div class="confirmButton l">注册</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+<script>
+	var user = {
+		uId:'',
+		username: "",
+		password: "",
+		gender: ""
+	}
+	$(".confirmButton").on("click",
+		function () {
+			user.username = $(".in2").val();
+			user.password = $(".in4").val();
+			user.gender = $(".in3").val();
+			console.log(user)
+			axios({
+				url: "http://localhost:8080/dazuoye/AddUser",
+				method: 'get',  // method:'post'
+				params: {
+					user:user
+				}
+			}).then(res => {
+				//this.tableData = res.data
+				//console.log(res.data[0].uID);
+				//console.log(res.data)
+				if(res.data=="success"){
+					alert("添加成功")
+				}
+				
+			})
+		})
+</script>
+
+</html>

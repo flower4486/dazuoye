@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/manager.css" />
+</head>
+
+<body>
+    <script src="js/vue.js"></script>
+    <script src="element-ui/lib/index.js"></script>
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css" />
+    <div id="app">
+        <div class="box">
+            <el-row>
+                <a id="char">
+                    <el-button type="primary">我的角色</el-button>
+                </a>
+            </el-row>
+            <el-row>
+                <a id="weap" >
+                    <el-button type="primary">我的武器</el-button>
+                </a>
+            </el-row>
+            <el-row>
+                <a id="acce">
+                    <el-button type="primary">我的饰品</el-button>
+                </a>
+            </el-row>
+            <el-row>
+                <a id="buychar">
+                    <el-button type="primary">角色商城</el-button>
+                </a>
+            </el-row>
+            <el-row>
+                <a id="buyweap" >
+                    <el-button type="primary">武器商城</el-button>
+                </a>
+            </el-row>
+            <el-row>
+                <a id="buyacce">
+                    <el-button type="primary">饰品商城</el-button>
+                </a>
+            </el-row>
+        </div>
+
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    uId: ''
+                }
+            },
+            mounted() {
+                let url = decodeURI(window.location.href); // 对获取url的url进行解码   decodeURI()函数可对encodeURI()函数编码过的 URI 进行解码。
+                let urlParsm = url.split("?uId=");  // 获取url携带的参数
+
+                let userInfo = urlParsm ? JSON.parse(urlParsm[1]) : ''  //判断参数是否存在 存在的话对对参数进行转换
+                console.log('userInfo', userInfo)
+                this.uId=userInfo
+                $("#char").on("click",
+                function(){
+                    let url = `./userscharactor.html?uId=${userInfo}`; 
+					//对参数进行json转化
+					window.location.href=url  //页面跳转
+                })
+                $("#weap").on("click",
+                function(){
+                    let url = `./usersweapon.html?uId=${userInfo}`; 
+					//对参数进行json转化
+					window.location.href=url  //页面跳转
+                })
+                $("#acce").on("click",
+                function(){
+                    let url = `./usersaccessories.html?uId=${userInfo}`; 
+					//对参数进行json转化
+					window.location.href=url  //页面跳转
+                })
+                $("#buychar").on("click",
+                function(){
+                    let url = `./buychara.html?uId=${userInfo}`; 
+					//对参数进行json转化
+					window.location.href=url  //页面跳转
+                })
+                $("#buyweap").on("click",
+                function(){
+                    let url = `./buyweap.html?uId=${userInfo}`; 
+					//对参数进行json转化
+					window.location.href=url  //页面跳转
+                })
+                $("#buyacce").on("click",
+                function(){
+                    let url = `./buyacce.html?uId=${userInfo}`; 
+					//对参数进行json转化
+					window.location.href=url  //页面跳转
+                })
+            },
+            methods: {
+                
+
+            }
+
+
+        });
+
+    </script>
+</body>
+
+</html>

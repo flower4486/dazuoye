@@ -1,26 +1,26 @@
 package com.itheima.pojo;
 
 public class Weapon {
-    private String wId     ;
-    private String wname   ;
-    private int attack  ;
-    private String wimg    ;
+    private Integer  wId     ;
+    private String   wname   ;
+    private Integer  attack  ;
+    private String   wimg    ;
 
     @Override
     public String toString() {
         return "Weapon{" +
-                "wId='" + wId + '\'' +
+                "wId=" + wId +
                 ", wname='" + wname + '\'' +
                 ", attack=" + attack +
                 ", wimg='" + wimg + '\'' +
                 '}';
     }
 
-    public String getwId() {
+    public Integer getwId() {
         return wId;
     }
 
-    public void setwId(String wId) {
+    public void setwId(Integer wId) {
         this.wId = wId;
     }
 
@@ -32,11 +32,11 @@ public class Weapon {
         this.wname = wname;
     }
 
-    public int getAttack() {
+    public Integer getAttack() {
         return attack;
     }
 
-    public void setAttack(int attack) {
+    public void setAttack(Integer attack) {
         this.attack = attack;
     }
 

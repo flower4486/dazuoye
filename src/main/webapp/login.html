@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<script type="text/javascript" src="js/jquery-3.6.1.min.js" ></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<link rel="stylesheet" href="css/login.css" />
+		<script src="js/axios.js"></script>
+		<script type="text/javascript" src="js/login.js" ></script>
+	</head>
+	<body>
+		<div id="login" class="t">
+			<div class="loginT t">
+				<div class="loginContent c">
+					<div class="loginContentLogo l">
+						
+					</div>
+				</div>
+			</div>
+			<div class="BodyBg t l">
+				<div class="BgPicture t"></div>
+				<div class="bodyMiddle c">
+					<div class="bodyMain">
+						<div class="MainContent">
+							<em>登录游戏</em>
+							<div class="input1 l">
+								<div class="userIcon leftIcon"></div>
+								<div class="user u1 l">
+									<div class="clear cl1"></div>
+									<input class="in1" type="text" placeholder="账号" />
+								</div>
+							</div>
+							<div class="input2 l">
+								<div class="pswordIcon leftIcon"></div>
+								<div class="user l">
+									<div class="clear cl2"></div>
+									<input class="in2" type="text" placeholder="密码" />
+								</div>
+							</div>
+							&nbsp;<br><br>
+							<div class="okLogin" id="Login1">用户登录</div>
+							&nbsp;<br><br>
+							<div class="okLogin" id="Login2">管理员登录</div>
+							<div class="freeRegister l">
+								<div class="rightArraw r"></div>
+								<p class="r">
+									还没有账号？<a href="register.html" class="red">免费注册</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			var user={
+				uid:'',
+				password:""
+			}
+			$("#Login2").on("click",
+		function(){
+			user.username=$(".in1").val();
+			user.password=$(".in2").val();
+			console.log(user)
+			axios({
+				url: "http://localhost:8080/dazuoye//IfLogin",
+				method: 'get',  // method:'post'
+				params: {
+					username:user.username,
+					password:user.password
+				}
+			}).then(res => {
+				//this.tableData = res.data
+				//console.log(res.data[0].uID);
+				console.log(res.data)
+				if(res.data != "failed"){
+					let url = `./managerpage.html?uId=${res.data}`; 
+					//对参数进行json转化
+					window.location.href=url  //页面跳转
+				}else{
+					alert("用户不存在，或者密码错误")
+				}
+			})
+		})
+		$("#Login1").on("click",
+		function(){
+			user.username=$(".in1").val();
+			user.password=$(".in2").val();
+			console.log(user)
+			axios({
+				url: "http://localhost:8080/dazuoye/IfLogin",
+				method: 'get',  // method:'post'
+				params: {
+					username:user.username,
+					password:user.password
+				}
+			}).then(res => {
+				//this.tableData = res.data
+				//console.log(res.data[0].uID);
+				console.log(res.data)
+				if(res.data!="failed"){
+					let url = `./userpage.html?uId=${res.data}`; 
+					//对参数进行json转化
+					window.location.href=url  //页面跳转
+				}else{
+					alert("用户不存在，或者密码错误")
+				}
+			})
+		})
+			
+		</script>
+	</body>
+</html>

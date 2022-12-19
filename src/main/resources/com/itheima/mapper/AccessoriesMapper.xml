@@ -3,13 +3,62 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
+
 <!--
 名称空间-->
 <mapper namespace="com.itheima.mapper.AccessoriesMapper">
+
+    <resultMap id="AccessoriesResultMap" type="accessories">
+        <id column="cId" property="cId"/>
+    </resultMap>
+
+    <insert id="addAccessories" useGeneratedKeys="true" keyProperty="aId">
+        insert into accessories ( aname, hp, defense, aimg) VALUES
+        ( #{aname},#{hp},#{defense},#{aimg});
+    </insert>
+    <insert id="userGetaccessories" statementType="CALLABLE">
+        call Get_New(
+        #{uId,mode=IN,jdbcType=INTEGER},
+        NULL,
+
+        NULL,
+        #{aId,mode=IN,jdbcType=INTEGER},
+        1
+        );
+    </insert>
+    <delete id="deleteAccessoriesById">
+        DELETE FROM accessories WHERE aId=#{aId};
+    </delete>
+
     <select id="selectAllaccessories" resultType="accessories">
         select * from accessories;
     </select>
     <select id="selectById" resultType="accessories">
 
     </select>
+    <select id="selectUersaccessories" resultType="accessories">
+        SELECT * FROM accessories WHERE accessories.aId in
+        (SELECT user_own_accessories.aId FROM user_own_accessories WHERE user_own_accessories.uId = #{uId});
+    </select>
+
+    <!--注意这个if标签中的符号，全都给我几把的小写，，NULL不对，null才是正确的-->
+    <update id="updateAccessories">
+        update accessories
+        <set>
+            <if test="aname != null and aname != ''">
+                aname = #{aname},
+            </if>
+            <if test="hp != null">
+                hp = #{hp},
+            </if>
+            <if test="defense != null">
+                defense = #{defense},
+            </if>
+            <if test="aimg != null and aimg != ''">
+                aimg = #{aimg}
+            </if>
+        </set>
+        where aId = #{aId};
+    </update>
 </mapper>
